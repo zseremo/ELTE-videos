@@ -1,2 +1,0 @@
-# ELTE-videos
-blaah
