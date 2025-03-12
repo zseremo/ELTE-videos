@@ -6,7 +6,6 @@
     <title>Youtube playlist links for ELTE Physics studies</title>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"></script>
-    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,13 +21,6 @@
             color: white;
             text-align: center;
             padding: 1em;
-        }
-        .auth-container {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .hidden {
-            display: none;
         }
         .container {
             display: flex;
@@ -66,54 +58,17 @@
         ul li a:hover {
             color: #000000;
         }
-        .user-info {
-            margin-top: 10px;
-            font-weight: bold;
+        .hidden {
+            display: none;
         }
     </style>
-</head>
-<body>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
 
-    <header>
-        <h1>Here is a list of links to the playlists:</h1>
-    </header>
-
-    <!-- Authentication Section -->
-    <div class="auth-container">
-        <button id="login-btn">Sign In with Google</button>
-        <button id="logout-btn" class="hidden">Logout</button>
-        <p id="user-info" class="hidden"></p>
-    </div>
-
-    <div class="container hidden" id="content">
-        <!-- Your content starts here -->
-        <div class="chapter">
-            <h2>Bsc</h2>
-            <div>
-                <h3>2nd semester</h3>
-                <ul>
-                    <li><a href="https://youtube.com/playlist?list=PLPE6Zi8SjtQJUWr3jO-ATJyoUzGzrketj&feature=shared" target="_blank">Hőtan (emelt)</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="chapter">
-            <h2>Msc</h2>
-            <div>
-                <h3>1st semester</h3>
-                <ul>
-                    <li><a href="https://youtube.com/playlist?list=PLPE6Zi8SjtQLWirFoYzNcq1GDC00Hj6uH&feature=shared" target="_blank">Particle and Nuclear physics</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <p>&copy; 2024 Webpage of Kolos Lukács</p>
-    </footer>
-
-    <script>
-        // Firebase configuration
+        // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBiGbVwGrm6ad5M-WvRAW7mX9bL2cCKJXE",
             authDomain: "links-77dc8.firebaseapp.com",
@@ -125,8 +80,9 @@
         };
 
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
 
         const loginBtn = document.getElementById("login-btn");
         const logoutBtn = document.getElementById("logout-btn");
@@ -135,8 +91,8 @@
 
         // Sign in with Google
         loginBtn.addEventListener("click", () => {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider)
+            const provider = new GoogleAuthProvider();
+            signInWithPopup(auth, provider)
                 .then((result) => {
                     console.log("User signed in:", result.user);
                 })
@@ -147,13 +103,13 @@
 
         // Sign out
         logoutBtn.addEventListener("click", () => {
-            auth.signOut()
+            signOut(auth)
                 .then(() => console.log("User signed out"))
                 .catch((error) => console.error("Sign out error:", error));
         });
 
         // Handle authentication state changes
-        auth.onAuthStateChanged((user) => {
+        onAuthStateChanged(auth, (user) => {
             if (user) {
                 userInfo.textContent = `Logged in as: ${user.email}`;
                 userInfo.classList.remove("hidden");
@@ -168,6 +124,85 @@
             }
         });
     </script>
+</head>
+<body>
+    <header>
+        <h1>Here is a list of links to the playlists:</h1>
+    </header>
 
+    <!-- Authentication Section -->
+    <div class="auth-container">
+        <button id="login-btn">Sign In with Google</button>
+        <button id="logout-btn" class="hidden">Logout</button>
+        <p id="user-info" class="hidden"></p>
+    </div>
+    
+    <div id="content" class="hidden">
+        <div class="container">
+            <!-- Chapter 1 -->
+            <div class="chapter">
+                <h2>Bsc</h2>
+                <!-- Subsection 1.1 -->
+                <div>
+                    <h3>2nd semester</h3>
+                    <ul>
+                        <li><a href="https://youtube.com/playlist?list=PLPE6Zi8SjtQJUWr3jO-ATJyoUzGzrketj&feature=shared" target="_blank">Hőtan (emelt)</a></li>
+                    </ul>
+                </div>
+                <!-- Subsection 1.2 -->
+                <div>
+                    <h3>4th semester</h3>
+                    <ul>
+                        <li><a href="https://youtube.com/playlist?list=PLPE6Zi8SjtQJCWo2kZxPr7RhLoO5Ntyba&feature=shared" target="_blank">Anyagtudomány</a></li>
+                        <li><a href="https://youtube.com/playlist?list=PLPE6Zi8SjtQIl93Fli2lxbG4Mg__tJkkQ&feature=shared" target="_blank">Eldin (A) előadás</a></li>
+                        <li><a href="https://youtube.com/playlist?list=PLPE6Zi8SjtQKOU7s1HkoBwQRwDP4JtZgL&feature=shared" target="_blank">Eldin (A) gyakorlat</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3>5th semester</h3>
+                    <ul>
+                        <li><a href="https://youtube.com/playlist?list=PLPE6Zi8SjtQIyczN7dV2DF65MxiBhMe-Z&feature=shared" target="_blank">Kvantum mechanika (A) előadás</a></li>
+                        <li><a href="https://youtube.com/playlist?list=PLPE6Zi8SjtQKQ6_iUZra2m5vP9XSXG0k4&feature=shared" target="_blank">Kvantum mechanika (A) gyakorlat</a></li>
+                        <li><a href="https://youtube.com/playlist?list=PLPE6Zi8SjtQKjPL2b6snjgEmuX7ySZnW7&feature=shared" target="_blank">Kondenzált anyagok fizikája</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3>6th semester</h3>
+                    <ul>
+                        <li><a href="https://youtube.com/playlist?list=PLPE6Zi8SjtQJJgsMgfBXW8kQR05-_7wiM&feature=shared" target="_blank">Statfiz (A)</a></li>
+                    <li><a href="https://youtube.com/playlist?list=PLPE6Zi8SjtQI62sH1yB-e8q8oBTHTX__J&feature=shared" target="_blank">Spec. rel</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Chapter 2 -->
+            <div class="chapter">
+                <h2>Msc</h2>
+                <!-- Subsection 2.1 -->
+                <div>
+                    <h3>1st semmester</h3>
+                    <ul>
+                        <li><a href="https://youtube.com/playlist?list=PLPE6Zi8SjtQLWirFoYzNcq1GDC00Hj6uH&feature=shared" target="_blank">Particle and Nuclear physics</a></li>
+                        <li><a href="https://youtube.com/playlist?list=PLPE6Zi8SjtQL-IOwi5P49rB5zla9NCTDA&feature=shared" target="_blank">Statistical and solid-state physics</a></li>
+                        <li><a href="https://youtube.com/playlist?list=PLPE6Zi8SjtQK3DU5H-qFKh_SvtOCgWd_z&feature=shared" target="_blank">Atom and molecular physics</a></li>
+                    </ul>
+                </div>
+                <!-- Subsection 2.2 -->
+                <div>
+                    <h3>2nd semester</h3>
+                    <ul>
+                        <li><a href="https://youtube.com/playlist?list=PLPE6Zi8SjtQJlfZKTaTNfq-vSxZNMwsiD&feature=shared" target="_blank">Advanded material physics</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Webpage of Kolos Lukács</p>
+    </footer>
 </body>
 </html>
